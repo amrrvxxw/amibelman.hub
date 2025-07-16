@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>amibelman — Автоблог</title>
+  <link href="https://fonts.googleapis.com/css2?family=Oxanium:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    html {
+      scroll-padding-top: 100px;
+    }
+    body {
+      font-family: 'Oxanium', sans-serif;
+      background: #0a0a0a;
+      color: #f0f0f0;
+      line-height: 1.6;
+      scroll-behavior: smooth;
+      min-height: 100vh;
+    }
+
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: rgba(10, 10, 10, 0.95);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid #444;
+      display: flex;
+      justify-content: center;
+      z-index: 1000;
+      padding: 15px 0;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.05);
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 30px;
+      font-weight: 500;
+      justify-content: center;
+    }
+
+    nav ul li {
+      cursor: pointer;
+      position: relative;
+      font-size: 1rem;
+      color: #bbb;
+      transition: color 0.3s ease, text-shadow 0.3s ease;
+      padding-bottom: 5px;
+    }
+
+    nav ul li::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 0;
+      height: 2px;
+      background: #aaa;
+      transition: width 0.3s ease;
+      border-radius: 2px;
+    }
+
+    nav ul li:hover,
+    nav ul li.active {
+      color: #fff;
+      text-shadow: 0 0 4px #fff;
+    }
+
+    nav ul li:hover::after,
+    nav ul li.active::after {
+      width: 100%;
+    }
+
+    section {
+      min-height: 70vh;
+      padding: 80px 30px 40px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      scroll-margin-top: 120px;
+      text-align: center;
+    }
+
+    section h1, section h2 {
+      color: #f0f0f0;
+      font-weight: 800;
+    }
+
+    .logo-img {
+      max-width: 280px;
+      margin: 0 auto 25px;
+      display: block;
+      cursor: pointer;
+    }
+
+    @keyframes bounceLogo {
+      0% {
+        transform: scale(1);
+      }
+      40% {
+        transform: scale(1.15);
+      }
+      100% {
+        transform: scale(1);
+      }
+    }
+
+    .logo-bounce {
+      animation: bounceLogo 0.5s ease-in-out;
+    }
+
+    #home.fade-in {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    }
+
+    #home.fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    #home h1 {
+      font-size: 2.6rem;
+      font-weight: 900;
+      margin-bottom: 20px;
+    }
+
+    #home p {
+      font-size: 1.2rem;
+      color: #ccc;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    #about, #works, #achievements, #contacts {
+      font-size: 1.1rem;
+      color: #ddd;
+      line-height: 1.6;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    #works a, #contacts a {
+      color: #ccc;
+      text-decoration: underline;
+      transition: color 0.3s ease;
+    }
+
+    #works a:hover, #contacts a:hover {
+      color: #fff;
+    }
+
+    #achievements ul {
+      list-style: none;
+      padding-left: 0;
+      border-left: 2px solid #888;
+      margin-top: 15px;
+      text-align: left;
+    }
+
+    #achievements ul li {
+      margin-bottom: 10px;
+      position: relative;
+      padding-left: 25px;
+    }
+
+    #achievements ul li::before {
+      content: '★';
+      color: #ccc;
+      position: absolute;
+      left: 0;
+    }
+
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+      will-change: opacity, transform;
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      border-top: 1px solid #333;
+      color: #666;
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 768px) {
+      nav ul {
+        flex-wrap: wrap;
+        gap: 15px;
+      }
+      section h1 {
+        font-size: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <nav>
+    <ul>
+      <li data-link="#home">Главная</li>
+      <li data-link="#about">Обо мне</li>
+      <li data-link="#works">Мои работы</li>
+      <li data-link="#achievements">Достижения</li>
+      <li data-link="#contacts">Контакты</li>
+    </ul>
+  </nav>
+</header>
+
+<main>
+  <section id="home" class="fade-in">
+    <img src="logo.PNG" alt="amibelman logo" class="logo-img" />
+    <h1>Автомобили как отражение характера</h1>
+    <p>Я делаю авторский автомобильный контент с вниманием к деталям, эстетике и тонкому вкусу.
+        На этом сайте — мои проекты, история и то, как я соединяю качество со стилем.</p>
+  </section>
+
+  <section id="about" class="fade-in">
+    <h2>Обо мне</h2>
+    <p>Меня зовут Амир. Я — автор автомобильного контента, для тех, кто ценит эстетику, внимание к деталям и настоящий стиль. <br>
+        Я смотрю на машины не как на средство передвижения — для меня это образ, энергия и характер.
+        Каждый проект — это визуальный манифест. Это про чистую композицию, правильный свет и моменты, которые хочется пересматривать. <br>
+        Я не стремлюсь быть “как все”. Я строю свою подачу, в которой мощь встречает вкус, а картинка говорит громче слов.
+        Если вы здесь — вы чувствуете это.</p>
+  </section>
+
+  <section id="works" class="fade-in">
+    <h2>Мои работы</h2>
+    <p>Ознакомиться с моими работами вы можете на моей странице Instagram: <a href="https://instagram.com/amibelman?igshid=YmMyMTA2M2Y=" target="_blank">@amibelman</a></p>
+  </section>
+
+  <section id="achievements" class="fade-in">
+    <h2>Мои достижения</h2>
+    <ul>
+      <li>4 000+ подписчиков в Instagram</li>
+      <li>Собственный Telegram-канал с активной аудиторией</li>
+      <li>Сотрудничество с топовыми автосалонами Самарканда</li>
+      <li>Публикации на популярных автомобильных ресурсах</li>
+      <li>Участие в съемках рекламных кампаний и видеопроектов для автобизнеса и не только</li>
+      <li>Личный стиль съемки - свет, кадры, ракурсы</li>
+    </ul>
+  </section>
+
+  <section id="contacts" class="fade-in">
+    <h2>Хотите стильное видео вашего авто? <br>
+    Напишите - я на связи</h2>
+    <p>Телефон: <a href="tel:+998979122552">+998 97 912 25 52</a></p>
+    <p>Instagram: <a href="https://instagram.com/amibelman?igshid=YmMyMTA2M2Y=" target="_blank">@amibelman</a></p>
+    <p>Telegram: <a href="https://t.me/amibelman" target="_blank">@amibelman</a></p>
+  </section>
+</main>
+
+<footer>
+  © 2025-2026 amibelman. Все права защищены.
+</footer>
+
+<script>
+  const navLinks = document.querySelectorAll('nav ul li');
+  const sections = document.querySelectorAll('section');
+
+  navLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      const targetId = link.getAttribute('data-link');
+      document.querySelector(targetId).scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+
+  function updateActiveLink() {
+    let current = '';
+    sections.forEach(section => {
+      const sectionTop = section.offsetTop - 160;
+      if (window.scrollY >= sectionTop) {
+        current = '#' + section.id;
+      }
+    });
+    navLinks.forEach(link => {
+      link.classList.remove('active');
+      if (link.getAttribute('data-link') === current) {
+        link.classList.add('active');
+      }
+    });
+  }
+
+  window.addEventListener('scroll', () => {
+    updateActiveLink();
+    checkFade();
+  });
+
+  const faders = document.querySelectorAll('.fade-in');
+  function checkFade() {
+    const triggerBottom = window.innerHeight * 0.85;
+    faders.forEach(fader => {
+      const top = fader.getBoundingClientRect().top;
+      if (top < triggerBottom) {
+        fader.classList.add('visible');
+      } else {
+        fader.classList.remove('visible');
+      }
+    });
+  }
+
+  window.addEventListener('load', () => {
+    checkFade();
+    updateActiveLink();
+  });
+
+  const logo = document.querySelector('.logo-img');
+  logo.addEventListener('click', () => {
+    logo.classList.remove('logo-bounce');
+    void logo.offsetWidth;
+    logo.classList.add('logo-bounce');
+  });
+</script>
+
+</body>
+</html>
